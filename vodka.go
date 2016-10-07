@@ -48,7 +48,7 @@ func init() {
 	gob.Register(url.Values{})
 }
 
-func InitSession(op ...Options) error {
+func Setup(op ...Options) error {
 	option := defaultOtions
 	if len(op) > 0 {
 		option = op[0]
