@@ -47,7 +47,7 @@ Finally in the code you can use it like this
 	    "log"
 	    "net/http"
 
-    "github.com/insionng/vodka"
+        "github.com/insionng/vodka"
 	    "github.com/insionng/vodka/engine/fasthttp"
 	    "github.com/vodka-contrib/session"
 	    //_ "github.com/vodka-contrib/session/redis"
