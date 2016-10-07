@@ -55,40 +55,40 @@ Finally in the code you can use it like this
     )
 
     func main() {
-    	    opt := session.Options{"file", `{"cookieName":"gosessionid","gclifetime":3600,"ProviderConfig":"./data/session"}`}
-	    if err := session.InitSession(opt); err != nil {
-		    log.Fatalln("session errors:", err)
-	    }
+    	opt := session.Options{"file", `{"cookieName":"gosessionid","gclifetime":3600,"ProviderConfig":"./data/session"}`}
+	if err := session.InitSession(opt); err != nil {
+	    log.Fatalln("session errors:", err)
+	}
 
         v := vodka.New()
-	    v.Use(m.Recover())
-	    v.Use(m.Gzip())
-	    v.Use(session.Sessioner())
+	v.Use(m.Recover())
+	v.Use(m.Gzip())
+	v.Use(session.Sessioner())
 
-	    v.GET("/get", func(self vodka.Context) error {
-		    sess := session.GetStore(self)
+	v.GET("/get", func(self vodka.Context) error {
+	    sess := session.GetStore(self)
 
             value := "nil"
             valueIf := sess.Get("key")
-		    if valueIf != nil {
-			    value = valueIf.(string)
-		    }
-		    return self.String(http.StatusOK, value)
-	    })
+	    if valueIf != nil {
+	        value = valueIf.(string)
+	    }
+	    return self.String(http.StatusOK, value)
+	})
 
     	v.GET("/set", func(self vodka.Context) error {
-	    	sess := session.GetStore(self)
-		val := self.QueryParam("v")
-		if len(val) == 0 {
-		    val = "value"
-		}
+	    sess := session.GetStore(self)
+	    val := self.QueryParam("v")
+	    if len(val) == 0 {
+	        val = "value"
+	    }
 
-		err := sess.Set("key", val)
-		if err != nil {
-		    log.Printf("sess.set %v \n", err)
-		}
-	    	return self.String(http.StatusOK, "ok")
-	    })
+	    err := sess.Set("key", val)
+	    if err != nil {
+	        log.Printf("sess.set %v \n", err)
+	    }
+	    return self.String(http.StatusOK, "ok")
+	})
 	    
 	v.Run(fasthttp.New(":8080"))
     }
