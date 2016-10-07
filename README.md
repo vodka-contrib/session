@@ -18,7 +18,7 @@ As of now this session manager support memory, file and Redis .
 First you must import it
 
 	import (
-		"github.com/astaxie/beego/session"
+		"github.com/vodka-contrib/session"
 	)
 
 
