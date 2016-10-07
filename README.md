@@ -1,4 +1,4 @@
-session
+Session
 ==============
 
 session is a Go session manager. It can use many session providers.
@@ -55,7 +55,8 @@ Finally in the code you can use it like this
     )
 
     func main() {
-	    if err := session.InitSession(session.Options{"file", `{"cookieName":"gosessionid","gclifetime":3600,"ProviderConfig":"./data/session"}`}); err != nil {
+    	    opt := session.Options{"file", `{"cookieName":"gosessionid","gclifetime":3600,"ProviderConfig":"./data/session"}`}
+	    if err := session.InitSession(opt); err != nil {
 		    log.Fatalln("session errors:", err)
 	    }
 
@@ -77,20 +78,19 @@ Finally in the code you can use it like this
 
     	v.GET("/set", func(self vodka.Context) error {
 	    	sess := session.GetStore(self)
+		val := self.QueryParam("v")
+		if len(val) == 0 {
+		    val = "value"
+		}
 
-		    val := self.QueryParam("v")
-		    if len(val) == 0 {
-		    	val = "value"
-		    }
-
-		    err := sess.Set("key", val)
-		    if err != nil {
-			    log.Printf("sess.set %v \n", err)
-		    }
+		err := sess.Set("key", val)
+		if err != nil {
+		    log.Printf("sess.set %v \n", err)
+		}
 	    	return self.String(http.StatusOK, "ok")
 	    })
-
-	    v.Run(fasthttp.New(":8080"))
+	    
+	v.Run(fasthttp.New(":8080"))
     }
 
 
