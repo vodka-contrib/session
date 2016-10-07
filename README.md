@@ -5,7 +5,7 @@ session is a Go session manager. It can use many session providers.
 
 ## How to install?
 
-	go get github.com/astaxie/beego/session
+	go get github.com/vodka-contrib/session
 
 
 ## What providers are supported?
