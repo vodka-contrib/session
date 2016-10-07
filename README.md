@@ -125,4 +125,4 @@ Maybe you will find the **memory** provider is a good example.
 
 ## LICENSE
 
-BSD License http://creativecommons.org/licenses/BSD/
+MIT License
