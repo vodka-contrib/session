@@ -48,6 +48,7 @@ func init() {
 	gob.Register(url.Values{})
 }
 
+// Setup 初始化并设置session配置
 func Setup(op ...Options) error {
 	option := defaultOtions
 	if len(op) > 0 {
@@ -58,10 +59,6 @@ func Setup(op ...Options) error {
 		option.Provider = defaultOtions.Provider
 		option.Config = defaultOtions.Config
 	}
-
-	// if len(option.Config) == 0 {
-	// 	option.Config = defaultOtions.Config
-	// }
 
 	log.Println("session config ", option)
 
@@ -75,11 +72,11 @@ func Setup(op ...Options) error {
 	return nil
 }
 
+// Sessioner Vodka session 中间件
 func Sessioner() vodka.MiddlewareFunc {
 	return func(next vodka.HandlerFunc) vodka.HandlerFunc {
 		return func(c vodka.Context) error {
 			if GlobalSessions == nil {
-
 				return errors.New("session manager not found, use session middleware but not init ?")
 			}
 
@@ -102,8 +99,7 @@ func Sessioner() vodka.MiddlewareFunc {
 					flash.WarningMsg = flashVals.Get("warning")
 					flash.InfoMsg = flashVals.Get("info")
 					flash.SuccessMsg = flashVals.Get("success")
-					// c.SetData("FLASH", flash)
-					// vodka.v2没有直接分配变量到模板这个方法，flash先存到context里
+					// flash先暂存到context里面
 					c.Set(CONTEXT_FLASH_KEY, flash)
 
 				}
