@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	if err := session.InitSession(session.Options{"file", `{"cookieName":"gosessionid","gclifetime":3600,"ProviderConfig":"./data/session"}`}); err != nil {
+	if err := session.Setup(session.Options{"file", `{"cookieName":"gosessionid","gclifetime":3600,"ProviderConfig":"./data/session"}`}); err != nil {
 		log.Fatalln("session errors:", err)
 	}
 
